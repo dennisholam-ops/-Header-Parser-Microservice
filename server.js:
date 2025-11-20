@@ -1,0 +1,39 @@
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.use(cors());
+
+// API endpoint
+app.get('/api/whoami', (req, res) => {
+  const ipaddress = req.ip || req.connection.remoteAddress;
+  const language = req.headers['accept-language'];
+  const software = req.headers['user-agent'];
+
+  res.json({
+    ipaddress: ipaddress,
+    language: language,
+    software: software
+  });
+});
+
+// Root route
+app.get('/', (req, res) => {
+  res.send(`
+    <html>
+      <head>
+        <title>Header Parser Microservice</title>
+      </head>
+      <body>
+        <h1>Header Parser Microservice</h1>
+        <p>Visit <a href="/api/whoami">/api/whoami</a> to see your request headers</p>
+      </body>
+    </html>
+  `);
+});
+
+app.listen(port, () => {
+  console.log('Header Parser Microservice running on port ' + port);
+});
