@@ -1,36 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request Header Parser Microservice</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Request Header Parser</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; }
+        code { background: #f4f4f4; padding: 10px; display: block; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Request Header Parser Microservice</h1>
-        
-        <div class="example">
-            <h2>Example Usage:</h2>
-            <code>
-                <a href="/api/whoami" target="_blank">[base url]/api/whoami</a>
-            </code>
-        </div>
-
-        <div class="output">
-            <h2>Example Output:</h2>
-            <code>
-                {
-                  "ipaddress": "159.20.14.100",
-                  "language": "en-US,en;q=0.5",
-                  "software": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0"
-                }
-            </code>
-        </div>
-
-        <div class="footer">
-            <p>By <a href="https://www.freecodecamp.org/" target="_blank">FreeCodeCamp</a> Project</p>
-        </div>
-    </div>
+    <h1>Request Header Parser Microservice</h1>
+    <h3>Example Usage:</h3>
+    <code><a href="/api/whoami">[url]/api/whoami</a></code>
+    <h3>Example Output:</h3>
+    <code>{"ipaddress":"::1","language":"en-US,en;q=0.9","software":"Mozilla/5.0..."}</code>
 </body>
 </html>
