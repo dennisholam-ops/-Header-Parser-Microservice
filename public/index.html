@@ -23,6 +23,15 @@
             border-left: 4px solid #007bff;
             margin: 15px 0;
         }
+        .try-button {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -30,7 +39,7 @@
     
     <h2>Example Usage:</h2>
     <p>
-        <a href="/api/whoami">[base url]/api/whoami</a>
+        <a class="try-button" href="/api/whoami">/api/whoami</a>
     </p>
 
     <h2>Example Output:</h2>
@@ -38,11 +47,14 @@
         <code>{"ipaddress":"159.20.14.100","language":"en-US,en;q=0.5","software":"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0"}</code>
     </div>
 
-    <h2>What it does:</h2>
+    <h2>What it returns:</h2>
     <ul>
-        <li>Returns your IP address in the <code>ipaddress</code> field</li>
-        <li>Returns your preferred language in the <code>language</code> field</li>
-        <li>Returns your software/browser in the <code>software</code> field</li>
+        <li><strong>ipaddress</strong>: Your IP address</li>
+        <li><strong>language</strong>: Your preferred language from Accept-Language header</li>
+        <li><strong>software</strong>: Your browser/software from User-Agent header</li>
     </ul>
+
+    <h2>API Endpoint:</h2>
+    <code>GET /api/whoami</code>
 </body>
 </html>
