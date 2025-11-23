@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/whoami",
+      "methods": ["GET"],
+      "dest": "/api/whoami"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    }
+  ]
+}
