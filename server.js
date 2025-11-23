@@ -10,25 +10,24 @@ app.use(cors({ optionsSuccessStatus: 200 }));
 // Serve static files
 app.use(express.static('public'));
 
-// API endpoint
+// API endpoint - this is the key part that must match FreeCodeCamp requirements
 app.get('/api/whoami', (req, res) => {
-  const ipaddress = req.ip || 
-                   req.connection.remoteAddress || 
-                   req.socket.remoteAddress ||
-                   (req.connection.socket ? req.connection.socket.remoteAddress : null);
-  
-  // Clean up IP address (remove IPv6 prefix if present)
-  const cleanIP = ipaddress.includes('::ffff:') 
-    ? ipaddress.split(':').pop() 
-    : ipaddress;
-  
+  // Get IP address - FreeCodeCamp expects the first one from x-forwarded-for or the direct connection
+  const ipaddress = req.headers['x-forwarded-for'] 
+    ? req.headers['x-forwarded-for'].split(',')[0] 
+    : req.socket.remoteAddress;
+
+  // Get language - first entry from accept-language header
   const language = req.headers['accept-language'];
-  const software = req.headers['user-agent'];
   
+  // Get software - from user-agent header
+  const software = req.headers['user-agent'];
+
+  // Return the exact JSON structure expected by FreeCodeCamp
   res.json({
-    ipaddress: cleanIP,
-    language: language || 'Not specified',
-    software: software || 'Not specified'
+    ipaddress: ipaddress,
+    language: language,
+    software: software
   });
 });
 
