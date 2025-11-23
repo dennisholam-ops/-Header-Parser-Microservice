@@ -1,42 +1,54 @@
 const express = require('express');
-const cors = require('cors');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Enable CORS
-app.use(cors({ optionsSuccessStatus: 200 }));
+// Enable CORS for all routes
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
 
-// Serve static files
-app.use(express.static('public'));
-
-// API endpoint - this is the key part that must match FreeCodeCamp requirements
+// API endpoint - MUST be exactly /api/whoami
 app.get('/api/whoami', (req, res) => {
-  // Get IP address - FreeCodeCamp expects the first one from x-forwarded-for or the direct connection
-  const ipaddress = req.headers['x-forwarded-for'] 
-    ? req.headers['x-forwarded-for'].split(',')[0] 
-    : req.socket.remoteAddress;
+  // Get IP address - handle various scenarios
+  let ip = req.headers['x-forwarded-for'] || 
+           req.connection.remoteAddress || 
+           req.socket.remoteAddress ||
+           req.connection.socket?.remoteAddress;
 
-  // Get language - first entry from accept-language header
-  const language = req.headers['accept-language'];
+  // Clean IP address (remove IPv6 prefix if present)
+  if (ip && ip.includes('::ffff:')) {
+    ip = ip.replace('::ffff:', '');
+  }
   
-  // Get software - from user-agent header
-  const software = req.headers['user-agent'];
+  // If IP is still undefined, set a default
+  if (!ip) {
+    ip = 'unknown';
+  }
 
-  // Return the exact JSON structure expected by FreeCodeCamp
+  // Get headers
+  const language = req.headers['accept-language'] || 'unknown';
+  const software = req.headers['user-agent'] || 'unknown';
+
+  // Return JSON response with exact keys required
   res.json({
-    ipaddress: ipaddress,
+    ipaddress: ip,
     language: language,
     software: software
   });
 });
 
-// Root route
+// Root route - optional but helpful
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.json({
+    message: 'Request Header Parser Microservice',
+    usage: 'Visit /api/whoami to see your request headers'
+  });
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const listener = app.listen(PORT, () => {
+  console.log('Server is running on port ' + listener.address().port);
 });
+
+module.exports = app;
